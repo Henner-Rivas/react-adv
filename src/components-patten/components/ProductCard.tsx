@@ -1,6 +1,7 @@
-import React, { createContext, ReactElement, useContext } from "react";
+import React, { createContext, ReactElement } from "react";
 import styles from "../styles/styles.module.css";
 import useProduct from "../hooks/useProduct";
+import { InitialValues, ProductCartHandlers } from "../interfaces/interfaces";
 import {
   ProductContextProps,
   Product,
@@ -8,10 +9,13 @@ import {
 } from "../interfaces/interfaces";
 interface Props {
   product: Product;
-  children?: ReactElement | ReactElement[];
+  /*   children?: ReactElement | ReactElement[];
+   */
+  children: (args: ProductCartHandlers) => JSX.Element;
   className?: string;
   onChange?: (args: onChangeArgs) => void;
   count?: number;
+  initailValues?: InitialValues;
 }
 
 export const ProductContext = createContext({} as ProductContextProps);
@@ -23,12 +27,27 @@ const ProductCard = ({
   product,
   className,
   count,
+  initailValues,
 }: Props) => {
-  const { counter, increaseBy } = useProduct({ onChange, product, count });
+  const { counter, increaseBy, maxCount, isMaxCountReached, reset } =
+    useProduct({
+      onChange,
+      product,
+      count,
+      initailValues,
+    });
+
   return (
-    <Provider value={{ counter, increaseBy, product }}>
+    <Provider value={{ counter, increaseBy, product, maxCount }}>
       <div className={`${styles.productCard} ${className} `}>
-        {children}
+        {children({
+          count: counter,
+          isMaxCountReached,
+          increaseBy,
+          maxCount: initailValues?.maxCount,
+          reset,
+          product: product,
+        })}
         <span className={`${styles.productDescription} `}>
           {" "}
           {product.title}

@@ -22,3 +22,7 @@
 .cart {
   width: 100px !important;
 }
+.buttonAddDisabled {
+  color: gray !important;
+  cursor: no-drop;
+}

@@ -1,9 +1,13 @@
 import styles from "../styles/styles.module.css";
-import React, { createContext, ReactElement, useContext } from "react";
+import { useContext } from "react";
 import { ProductContext } from "./ProductCard";
 
 export const ProductButtons = ({ className }: { className: string }) => {
-  const { increaseBy, counter } = useContext(ProductContext);
+  const { increaseBy, counter, maxCount } = useContext(ProductContext);
+  console.log(
+    "🚀 ~ file: ProductButtons.tsx ~ line 7 ~ ProductButtons ~ maxCount",
+    maxCount
+  );
 
   return (
     <div className={`${styles.buttonsContainer} ${className}`}>
@@ -11,7 +15,14 @@ export const ProductButtons = ({ className }: { className: string }) => {
         -
       </button>
       <div className={styles.countLabel}>{counter} </div>
-      <button className={styles.buttonAdd} onClick={() => increaseBy(+1)}>
+      <button
+        className={
+          counter === maxCount!
+            ? ` ${styles.buttonAdd} buttonAddDisabled `
+            : ` ${styles.buttonAdd}  `
+        }
+        onClick={() => increaseBy(+1)}
+      >
         +{" "}
       </button>
     </div>
