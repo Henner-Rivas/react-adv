@@ -2,8 +2,6 @@ import { ProductButtons } from "../components/ProductButtons";
 import ProductCard from "../components/ProductCard";
 import { ProductImage } from "../components/ProductImage";
 import "../styles/custom-styles.css";
-import { Product, ProductCart } from "../interfaces/interfaces";
-import { useState } from "react";
 import { products } from "../data/product";
 import useShoppingCart from "../hooks/useShoppingCart";
 

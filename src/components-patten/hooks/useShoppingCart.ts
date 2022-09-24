@@ -14,18 +14,12 @@ const useShoppingCart = () => {
     product: Product;
   }) => {
     setShoppingCart((oldProduct) => {
-      const productInCart = oldProduct[product.id] || { ...product, count: 0 };
-
-      if (Math.max(productInCart.count + count, 0) > 0) {
-        productInCart.count += count;
-        return {
-          ...oldProduct,
-          [product.id]: productInCart,
-        };
+      if (count === 0) {
+        const { [product.id]: todelete, ...rest } = oldProduct;
+        return rest;
       }
-      let { [product.id]: toDelete, ...rest } = oldProduct;
 
-      return { ...rest };
+      return { ...oldProduct, [product.id]: { ...product, count } };
     });
   };
 
