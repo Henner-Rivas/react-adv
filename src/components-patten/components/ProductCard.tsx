@@ -1,17 +1,35 @@
 import React, { createContext, ReactElement, useContext } from "react";
 import styles from "../styles/styles.module.css";
 import useProduct from "../hooks/useProduct";
-import { Props, ProductContextProps } from "../interfaces/interfaces";
+import {
+  ProductContextProps,
+  Product,
+  onChangeArgs,
+} from "../interfaces/interfaces";
+interface Props {
+  product: Product;
+  children?: ReactElement | ReactElement[];
+  className?: string;
+  onChange?: (args: onChangeArgs) => void;
+  count?: number;
+}
+
 export const ProductContext = createContext({} as ProductContextProps);
 const { Provider } = ProductContext;
 
-const ProductCard = ({ children, product, className }: Props) => {
-  const { counter, increaseBy } = useProduct();
+const ProductCard = ({
+  onChange,
+  children,
+  product,
+  className,
+  count,
+}: Props) => {
+  const { counter, increaseBy } = useProduct({ onChange, product, count });
   return (
     <Provider value={{ counter, increaseBy, product }}>
-      <div className={styles.productCard}>
+      <div className={`${styles.productCard} ${className} `}>
         {children}
-        <span className={`${styles.productDescription} ${className}`}>
+        <span className={`${styles.productDescription} `}>
           {" "}
           {product.title}
         </span>

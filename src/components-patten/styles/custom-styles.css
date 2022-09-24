@@ -13,3 +13,12 @@
 .custom-buttons button {
   color: red;
 }
+
+.shopping-cart {
+  position: fixed;
+  right: 10px;
+  top: 2px;
+}
+.cart {
+  width: 100px !important;
+}
