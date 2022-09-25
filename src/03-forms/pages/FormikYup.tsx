@@ -1,26 +1,9 @@
 import React from "react";
 import "../styles/styles.css";
-import { FormikErrors, useFormik } from "formik";
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
-const FormikBasic = () => {
-  const validate = ({ firstName, lastName, email }: FormValues) => {
-    const errors: FormikErrors<FormValues> = {};
-    if (!firstName) {
-      errors.firstName = "Required";
-    } else if (firstName.length > 15) {
-      errors.firstName = "Must be 15 characters or less";
-    }
-
-    if (!email) {
-      errors.email = "Required";
-    }
-    return errors;
-  };
+const FormikYup = () => {
   const { handleChange, handleBlur, values, handleSubmit, touched, errors } =
     useFormik({
       initialValues: {
@@ -31,12 +14,19 @@ const FormikBasic = () => {
       onSubmit: (values) => {
         console.log(values);
       },
-      validate,
+      validationSchema: Yup.object({
+        firstName: Yup.string()
+          .max(15, "debe tener maximo 15")
+          .required("Este requerido"),
+        lastName: Yup.string()
+          .max(15, "debe tener maximo 15")
+          .required("Este requerido"),
+      }),
     });
 
   return (
     <div>
-      <h1>Formik Basic Tutorial</h1>
+      <h1>Formik Yup Tutorial</h1>
       <form action="" noValidate onSubmit={handleSubmit}>
         <label htmlFor="firstName">First Name</label>
         <input
@@ -70,4 +60,4 @@ const FormikBasic = () => {
   );
 };
 
-export default FormikBasic;
+export default FormikYup;
